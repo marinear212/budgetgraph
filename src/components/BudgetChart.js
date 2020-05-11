@@ -66,8 +66,10 @@ class BudgetChart extends React.Component {
     };
 
     loadChart = () => {
-        var ctx = document.getElementById('budgetchart').getContext('2d');
-        var chart = new Chart(ctx, {
+
+        let ctx = document.getElementById('budgetchart').getContext('2d');
+        // eslint-disable-next-line
+        let chart = new Chart(ctx, {
             // The type of chart we want to create
             type: 'line',
 

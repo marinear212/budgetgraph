@@ -1,7 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 
-const ToggleButton = ({ buttonDisplay, buttonValue, initialValue = false }) => {
+import { setToggleValue } from '../../actions/FormActions'
+
+const ToggleButton = ({ setToggleValue, buttonType, buttonDisplay, buttonValue, initialValue = false }) => {
     const [toggleButton, setToggleButton] = useState(initialValue);
+
+    useEffect(() => {
+        setToggleValue(buttonType, buttonValue, toggleButton);
+    })
 
     return (
         <button 
@@ -14,4 +21,6 @@ const ToggleButton = ({ buttonDisplay, buttonValue, initialValue = false }) => {
     );
 };
 
-export default ToggleButton;
+export default connect(null, {
+    setToggleValue
+})(ToggleButton);

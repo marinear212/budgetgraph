@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import '../sass/styles.sass';
 
@@ -6,7 +6,6 @@ import EntryCreate from './EntryCreate';
 import EntryList from './EntryList';
 import EntryEdit from './EntryEdit';
 import BudgetChart from './BudgetChart';
-import Modal from './Modal';
 
 const App = () => {
     return (

@@ -1,16 +1,12 @@
-import React, { useState, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import ToggleButton from './ToggleButton';
+import DateRange from '././DateRange';
 import DateSelector from './DateSelector';
 import DaySelector from './DaySelector';
 
 import { connect } from 'react-redux';
 
 const PatternForm = (props) => {
-  const [recurringDate, setRecurringDate] = useState(!props.initialValues
-    ? '' : props.initialValues.recurringDate);
-
-  
-
   const monthButtons = () => {
     const months = [
       'Jan', 'Feb', 'Mar', 'Apr',
@@ -19,7 +15,7 @@ const PatternForm = (props) => {
     ]
 
     return months.map((m) => {
-      return <ToggleButton buttonDisplay={m} buttonValue={m} />
+      return <ToggleButton key={m} buttonType="months" buttonDisplay={m} buttonValue={m} />
     });
   }
 
@@ -28,17 +24,7 @@ const PatternForm = (props) => {
     switch (props.patternType) {
       case 'Daily':
         return (
-          <Fragment>
-            <div className="field">
-              <label className="label">From</label>
-              <DateSelector />
-            </div>
-            <div className="field">
-              <label className="label">To</label>
-              <DateSelector />
-            </div>
-          </Fragment>
-
+          <DateRange />
         )
       case 'Week':
         return (
@@ -46,62 +32,41 @@ const PatternForm = (props) => {
             <div className="field">
             <label className="label">Occuring Days</label>
               <div className="control">
-                <ToggleButton buttonDisplay="S" buttonValue="Sun" initialValue={true} />
-                <ToggleButton buttonDisplay="M" buttonValue="Mon" initialValue={true} />
-                <ToggleButton buttonDisplay="T" buttonValue="Tue" initialValue={true} />
-                <ToggleButton buttonDisplay="W" buttonValue="Wed" initialValue={true} />
-                <ToggleButton buttonDisplay="T" buttonValue="Thu" initialValue={true} />
-                <ToggleButton buttonDisplay="F" buttonValue="Fri" initialValue={true} />
-                <ToggleButton buttonDisplay="S" buttonValue="Sat" initialValue={true} />
+                <ToggleButton buttonType="weekdays" buttonDisplay="S" buttonValue="Sun" initialValue={true} />
+                <ToggleButton buttonType="weekdays" buttonDisplay="M" buttonValue="Mon" initialValue={true} />
+                <ToggleButton buttonType="weekdays" buttonDisplay="T" buttonValue="Tue" initialValue={true} />
+                <ToggleButton buttonType="weekdays" buttonDisplay="W" buttonValue="Wed" initialValue={true} />
+                <ToggleButton buttonType="weekdays" buttonDisplay="T" buttonValue="Thu" initialValue={true} />
+                <ToggleButton buttonType="weekdays" buttonDisplay="F" buttonValue="Fri" initialValue={true} />
+                <ToggleButton buttonType="weekdays" buttonDisplay="S" buttonValue="Sat" initialValue={true} />
               </div>
             </div>
-            <div className="field">
-              <label className="label">From</label>
-              <DateSelector />
-            </div>
-            <div className="field">
-              <label className="label">To</label>
-              <DateSelector />
-            </div>
+            <DateRange />
           </Fragment>
         )
       case 'Month':
         return (
           <Fragment>
             <DaySelector />
-            <div className="field">
-              <label className="label">From</label>
-              <DateSelector />
-            </div>
-            <div className="field">
-              <label className="label">To</label>
-              <DateSelector />
-            </div>
+            <DateRange />
           </Fragment>
         )
       case 'Year':
         return (
           <Fragment>
             <div className="field">
-              <lable className="label">Occuring months</lable>
+              <label className="label">Occuring months</label>
               {monthButtons()}
             </div>
             <DaySelector />
-            <div className="field">
-              <label className="label">From</label>
-              <DateSelector />
-            </div>
-            <div className="field">
-              <label className="label">To</label>
-              <DateSelector />
-            </div>
+            <DateRange />
           </Fragment>
         )
       default:
         return (
           <div className="field">
             <label className="label">Date</label>
-            <DateSelector />
+            <DateSelector dateType="endDate" />
           </div>
         )
     }

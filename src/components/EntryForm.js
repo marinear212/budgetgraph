@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PatternForm from './forms/PatternForm';
 import { connect } from 'react-redux';
 
-import { setInputValue } from '../actions/index'
+import { setInputValue, resetPattern } from '../actions'
 
 const EntryForm = (props) => {
   const patternFrequencySelector = () => {
     const frequency = Array.from(Array(12).keys(), x => x + 1);
 
     const patternFrequencyItems = frequency.map((d) => {
-      return <option>{d}</option>
+      return <option key={d}>{d}</option>
     })
 
     return (
@@ -79,7 +79,10 @@ const EntryForm = (props) => {
                 <div className="contorl">
                   <div className="select">
                     <select name="patternType" value={props.patternType}
-                      onChange={handleInputChange}>
+                      onChange={(e) => {
+                        handleInputChange(e);
+                        props.resetPattern();
+                      }}>
                       <option>Never</option>
                       <option>Daily</option>
                       <option>Week</option>
@@ -117,5 +120,5 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-  setInputValue
+  setInputValue, resetPattern
 })(EntryForm);

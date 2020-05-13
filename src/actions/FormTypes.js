@@ -1,3 +1,5 @@
 export const SET_INPUT_VALUE = 'SET_INPUT_VALUE';
-export const SET_START_DATE = 'SET_START_DATE';
-export const SET_END_DATE = 'SET_END_DATE';
+export const SET_PATTERN_VALUE = 'SET_PATTERN_VALUE';
+export const SET_TOGGLE_VALUE = 'SET_TOGGLE_VALUE';
+export const RESET_FORM = 'RESET_FORM';
+export const RESET_PATTERN = 'RESET_PATTERN';

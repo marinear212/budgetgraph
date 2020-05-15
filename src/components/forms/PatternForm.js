@@ -4,8 +4,6 @@ import DateRange from '././DateRange';
 import DateSelector from './DateSelector';
 import DaySelector from './DaySelector';
 
-import { connect } from 'react-redux';
-
 const PatternForm = (props) => {
   const monthButtons = () => {
     const months = [
@@ -19,8 +17,23 @@ const PatternForm = (props) => {
     });
   }
 
-  const renderPatternForm = () => {
+  const weekdayButtons = () => {
+    const weekdays = [ 
+      { value: 'Sun', display: 'S' },
+      { value: 'Mon', display: 'M' },
+      { value: 'Tue', display: 'T' },
+      { value: 'Wed', display: 'W' },
+      { value: 'Thu', display: 'T' },
+      { value: 'Fri', display: 'F' },
+      { value: 'Sat', display: 'S' },
+    ]
 
+    return weekdays.map((w) => {
+      return <ToggleButton key={w.value} buttonType="weekdays" buttonDisplay={w.display} buttonValue={w.value} initialValue={true} />
+    });
+  }
+
+  const renderPatternForm = () => {
     switch (props.patternType) {
       case 'Daily':
         return (
@@ -32,13 +45,7 @@ const PatternForm = (props) => {
             <div className="field">
             <label className="label">Occuring Days</label>
               <div className="control">
-                <ToggleButton buttonType="weekdays" buttonDisplay="S" buttonValue="Sun" initialValue={true} />
-                <ToggleButton buttonType="weekdays" buttonDisplay="M" buttonValue="Mon" initialValue={true} />
-                <ToggleButton buttonType="weekdays" buttonDisplay="T" buttonValue="Tue" initialValue={true} />
-                <ToggleButton buttonType="weekdays" buttonDisplay="W" buttonValue="Wed" initialValue={true} />
-                <ToggleButton buttonType="weekdays" buttonDisplay="T" buttonValue="Thu" initialValue={true} />
-                <ToggleButton buttonType="weekdays" buttonDisplay="F" buttonValue="Fri" initialValue={true} />
-                <ToggleButton buttonType="weekdays" buttonDisplay="S" buttonValue="Sat" initialValue={true} />
+                {weekdayButtons()}
               </div>
             </div>
             <DateRange />
@@ -72,14 +79,7 @@ const PatternForm = (props) => {
     }
   }
 
-
   return renderPatternForm();
 }
 
-const mapStateToProps = (state) => {
-  return {
-    patternType: state.formValues.patternType
-  }
-}
-
-export default connect(mapStateToProps)(PatternForm);
+export default PatternForm;

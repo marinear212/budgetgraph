@@ -12,13 +12,10 @@ export const setInitialAmount = (amount) => {
     }
 }
 
-export const createEntry = (amount, recurringDate) => {
+export const createEntry = (detail) => {
     return {
         type: CREATE_ENTRY,
-        payload: { 
-            amount, 
-            recurringDate 
-        }
+        payload: detail
     }
 }
 

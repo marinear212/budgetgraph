@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PatternForm from './forms/PatternForm';
 import { connect } from 'react-redux';
 
 import { setInputValue, resetPattern } from '../actions'
 
 const EntryForm = (props) => {
+  const [description, setDescription] = useState('');
+  const [patternFrequency, setPatternFrequency] = useState('1');
+  const [amount, setAmount] = useState('');
+  const [patternType, setPatternType] = useState('Never');
+
+
   const patternFrequencySelector = () => {
     const frequency = Array.from(Array(12).keys(), x => x + 1);
 
@@ -15,8 +21,11 @@ const EntryForm = (props) => {
     return (
       <div className="control">
         <div className="select">
-          <select name="patternFrequency" value={props.patternFrequency}
-            onChange={handleInputChange} >
+          <select name="patternFrequency" value={patternFrequency}
+            onChange={(e) => {
+              setPatternFrequency(e.target.value);
+              handleInputChange(e);
+            }} >
             {patternFrequencyItems}
           </select>
         </div>
@@ -49,8 +58,11 @@ const EntryForm = (props) => {
               <label className="label">Description</label>
 
               <div className="contorl">
-                <input name="description" className="input" type="text" value={props.description}
-                  onChange={handleInputChange} />
+                <input name="description" className="input" type="text" value={description}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                    handleInputChange(e);
+                  }} />
               </div>
 
             </div>
@@ -59,27 +71,31 @@ const EntryForm = (props) => {
               <label className="label">Amount</label>
 
               <div className="control">
-                <input name="amount" className="input" type="text" value={props.amount}
-                  onChange={handleInputChange} />
+                <input name="amount" className="input" type="text" value={amount}
+                  onChange={(e) => {
+                    setAmount(e.target.value);
+                    handleInputChange(e);
+                  }} />
               </div>
 
             </div>
 
             <div className="field">
               <label className="label">{`Recurring${
-                props.patternType !== 'Never' && props.patternType !== 'Daily'
+                patternType !== 'Never' && patternType !== 'Daily'
                   ? ' every'
                   : ''
                 }`}</label>
               <div className="field is-grouped">
-                {props.patternType !== 'Never' && props.patternType !== 'Daily'
+                {patternType !== 'Never' && patternType !== 'Daily'
                   ? patternFrequencySelector()
                   : null}
 
                 <div className="contorl">
                   <div className="select">
-                    <select name="patternType" value={props.patternType}
+                    <select name="patternType" value={patternType}
                       onChange={(e) => {
+                        setPatternType(e.target.value);
                         handleInputChange(e);
                         props.resetPattern();
                       }}>
@@ -95,11 +111,11 @@ const EntryForm = (props) => {
 
             </div>
 
-            <PatternForm patternType={props.patternType} />
+            <PatternForm patternType={patternType} />
 
             <div className="field is-grouped">
               <div className="control">
-                <input className="button is-link" type="submit"></input>
+                <input className="button is-link" type="submit" onClick={props.handleSubmit}></input>
               </div>
             </div>
 
@@ -110,15 +126,6 @@ const EntryForm = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    description: state.formValues.description,
-    amount: state.formValues.amount,
-    patternFrequency: state.formValues.patternFrequency,
-    patternType: state.formValues.patternType
-  }
-}
-
-export default connect(mapStateToProps, {
+export default connect(null, {
   setInputValue, resetPattern
 })(EntryForm);

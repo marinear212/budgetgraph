@@ -57,8 +57,7 @@ const DateSelector = (props) => {
             <div className="control">
                 <div className="select">
                     <select value={month} onChange={(e) => {
-                        setMonth(e.target.value);
-                        //handleChange(`${year}-${(months.indexOf(e.target.value) + 1).toString()}-${day}`);                    
+                        setMonth(e.target.value);                  
                     }} >
                         {renderMonths()}
                     </select>
@@ -67,8 +66,7 @@ const DateSelector = (props) => {
             <div className="control">
                 <div className="select">
                     <select value={day} onChange={(e) => {
-                        setDay(e.target.value);
-                        //handleChange(`${year}-${(months.indexOf(month) + 1).toString()}-${e.target.value}`);    
+                        setDay(e.target.value);   
                     }} >
                         {renderDays()}
                     </select>
@@ -78,7 +76,6 @@ const DateSelector = (props) => {
                 <div className="select">
                     <select value={year} onChange={(e) => {
                         setYear(e.target.value);
-                        //handleChange(`${e.target.value}-${(months.indexOf(month) + 1).toString()}-${day}`);
                     }} >
                         {renderYears()}
                     </select>
@@ -88,14 +85,8 @@ const DateSelector = (props) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        startDate: state.formValues.startDate,
-        endDate: state.formValues.endDate
-    }
-}
 
 export default connect(
-    mapStateToProps, {
+    null, {
     setPatternValue
 })(DateSelector)

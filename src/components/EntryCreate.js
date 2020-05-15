@@ -8,9 +8,9 @@ import Modal from './Modal';
 const EntryCreate = (props) => {
     const [showModal, setShowModal] = useState(false);
 
-    // eslint-disable-next-line
-    const handleSubmit = (amount, recurringDate) => {
-        props.createEntry(amount, recurringDate);
+    const handleSubmit = () => {
+        props.createEntry(props.formValues);
+        handleModal();
     };
 
     const handleModal = () => {
@@ -22,13 +22,19 @@ const EntryCreate = (props) => {
 
     return (
         <div>
-            <button className="button is-light" onClick={handleModal}>Add Entry</button>
-            <Modal showModal={showModal} handleClose={handleModal}  />
+            <button className="button is-white" onClick={handleModal}>+ Add Entry</button>
+            <Modal showModal={showModal} handleClose={handleModal} handleSubmit={handleSubmit} />
         </div>        
     );
 };
 
-export default connect(null, {
+const mapStateToProps = ({ formValues }) => {
+    return {
+        formValues
+    }
+}
+
+export default connect(mapStateToProps, {
     createEntry, resetForm
 }
 )(EntryCreate)

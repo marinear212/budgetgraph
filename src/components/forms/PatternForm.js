@@ -7,25 +7,34 @@ import DaySelector from './DaySelector';
 const PatternForm = (props) => {
   const monthButtons = () => {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr',
-      'May', 'Jun', 'Jul', 'Aug',
-      'Sep', 'Oct', 'Nov', 'Dec'
+      { value: 0, display: 'Jan' }, 
+      { value: 1, display: 'Feb' }, 
+      { value: 2, display: 'Mar' }, 
+      { value: 3, display: 'Apr' },
+      { value: 4, display: 'May' }, 
+      { value: 5, display: 'Jun' }, 
+      { value: 6, display: 'Jul' }, 
+      { value: 7, display: 'Aug' },
+      { value: 8, display: 'Sep' }, 
+      { value: 9, display: 'Oct' }, 
+      { value: 10, display: 'Nov' }, 
+      { value: 11, display: 'Dec' }
     ]
 
     return months.map((m) => {
-      return <ToggleButton key={m} buttonType="months" buttonDisplay={m} buttonValue={m} />
+      return <ToggleButton key={m.value} buttonType="months" buttonDisplay={m.display} buttonValue={m.value} />
     });
   }
 
   const weekdayButtons = () => {
     const weekdays = [ 
-      { value: 'Sun', display: 'S' },
-      { value: 'Mon', display: 'M' },
-      { value: 'Tue', display: 'T' },
-      { value: 'Wed', display: 'W' },
-      { value: 'Thu', display: 'T' },
-      { value: 'Fri', display: 'F' },
-      { value: 'Sat', display: 'S' },
+      { value: 0, display: 'S' },
+      { value: 1, display: 'M' },
+      { value: 2, display: 'T' },
+      { value: 3, display: 'W' },
+      { value: 4, display: 'T' },
+      { value: 5, display: 'F' },
+      { value: 6, display: 'S' },
     ]
 
     return weekdays.map((w) => {

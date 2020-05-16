@@ -3,7 +3,14 @@ import Chart from 'chart.js';
 import { connect } from 'react-redux';
 
 class BudgetChart extends React.Component {
-    state = { chartData: null }
+    state = { 
+        chartData: null,
+        initialData: {
+            t: "2020-05-02",
+            y: 3000
+        },
+        chartLength: 24
+    }
 
     componentDidMount() {
         this.loadChart();
@@ -17,17 +24,150 @@ class BudgetChart extends React.Component {
         this.loadChart();
     };
 
-    prepareData = () => {
-        const initialData = [
-            {
-                t: "2020-05-02",
-                y: 3000
+    dailyPatternType = (detail) => {
+        const endDate = new Date(detail.patternDescription.endDate);
+        const startDate = new Date(detail.patternDescription.startDate);
+        let countDate = new Date(startDate);
+        let dateArray = [];
+
+        while (countDate <= endDate) {
+            dateArray.push({
+                t: new Date(countDate),
+                y: detail.amount
+            })
+
+            countDate.setDate(countDate.getDate() + 1)
+        }
+
+        return dateArray;
+    }
+
+    weekPatternType = (detail) => {
+        const endDate = new Date(detail.patternDescription.endDate);
+        const startDate = new Date(detail.patternDescription.startDate);
+        const multiplier = 7 * detail.patternFrequency;
+
+        let countDate = new Date(startDate);
+        let dateArray = [];
+
+        for(const day in detail.patternDescription.weekdays){
+            if (detail.patternDescription.weekdays[day] === true) {
+                countDate = new Date(startDate);
+
+                while(countDate.getDay() !== parseInt(day)) {
+                    countDate.setDate(countDate.getDate() + 1);
+                }
+
+                while(countDate <= endDate) {
+                    dateArray.push({
+                        t: new Date(countDate),
+                        y: detail.amount
+                    });
+    
+                    countDate.setDate(countDate.getDate() + multiplier)
+                }                
+            }            
+        }
+
+        return dateArray;
+    }
+
+    monthPatternType = (detail) => {
+        const endDate = new Date(detail.patternDescription.endDate);
+        const startDate = new Date(detail.patternDescription.startDate);
+
+        let countDate = new Date(startDate);
+        let dateArray = [];
+
+        detail.patternDescription.dates.forEach(date => {
+            countDate = new Date(startDate);
+            countDate.setDate(1);
+            
+            while(countDate.getDate() !== parseInt(date)) {
+                countDate.setDate(countDate.getDate() + 1);
             }
-        ];
+
+            while(countDate <= endDate) {
+                if (countDate >= startDate) {
+                    dateArray.push({
+                        t: new Date(countDate),
+                        y: detail.amount
+                    });
+                }               
+
+                countDate.setMonth(countDate.getMonth() + parseInt(detail.patternFrequency));
+            }
+        })
+
+        return dateArray;
+    }
+
+    yearPatternType = (detail) => {
+        const endDate = new Date(detail.patternDescription.endDate);
+        const startDate = new Date(detail.patternDescription.startDate);
+
+        let countDate = new Date(startDate);
+        let dateArray = [];
+
+        /// TODO
+        for(const month in detail.patternDescription.months){
+            if (detail.patternDescription.months[month] === true) {
+                countDate = new Date(startDate);
+                countDate.setDate(1);
+
+                while(countDate.getMonth() !== parseInt(month)) {
+                    countDate.setMonth(countDate.getMonth() + 1);
+                }
+
+                detail.patternDescription.dates.forEach(date => {
+                    countDate = new Date(startDate);
+                    countDate.setDate(1);
+                    
+                    while(countDate.getDate() !== parseInt(date)) {
+                        countDate.setDate(countDate.getDate() + 1);
+                    }
+        
+                    while(countDate <= endDate) {
+                        if (countDate >= startDate) {
+                            dateArray.push({
+                                t: new Date(countDate),
+                                y: detail.amount
+                            });
+                        }               
+        
+                        countDate.setMonth(countDate.getMonth() + parseInt(detail.patternFrequency));
+                    }
+                })                
+            }            
+        }
+    }
+
+    neverPatternType = (detail) => {
+
+    }
+
+    prepareData = () => {
 
         if (this.props.entries.length > 0) {
-            const entryData = this.props.entries.map((entry) => {
-                const yearData = [];
+            const entryData = this.props.entries.map(({id, detail}) => {
+                switch (detail.patternType) {
+                    case 'Daily':
+                        return this.dailyPatternType(detail);
+                    case 'Week':
+                        return this.weekPatternType(detail);
+                    case 'Month':
+                        return this.monthPatternType(detail);
+                    case 'Year':
+                        return null;
+                    default:
+                        return null;
+                }
+            });
+
+
+            console.log(entryData);
+
+                /*const yearData = [];
                 for(let i = 0; i < 12; i++) {
                     const dateNow = new Date();
                     let month = entry.recurringDate < dateNow.getDate() ? dateNow.getMonth() + 2 + i : dateNow.getMonth() + 1 + i;
@@ -61,7 +201,7 @@ class BudgetChart extends React.Component {
                 finalData[i].y += finalData[i-1].y;
             };
             
-            this.setState({ chartData: finalData });
+            this.setState({ chartData: finalData });*/
         };
     };
 

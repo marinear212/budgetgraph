@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import EntryForm from './EntryForm';
 
 const Modal = ({ showModal, handleClose, handleSubmit, initialFormValue }) => {
-    console.log(initialFormValue)
-
     return (
         ReactDOM.createPortal(
             <div className={`modal${showModal ? ' is-active' : ''}`}>

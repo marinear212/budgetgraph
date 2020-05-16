@@ -37,7 +37,7 @@ const EntryList = (props) => {
     const renderList = () => {
         return props.entries.map(entry => {
             return (
-                <tr key="entry.id">
+                <tr key={entry.id}>
                     <td className="is-size-5">{entry.detail.description}</td>
                     <td className="is-size-5">{entry.detail.amount}</td>
                     <td className="is-size-5">{recurrencyText(entry.detail.patternType, entry.detail.patternFrequency)}</td>

@@ -53,7 +53,7 @@ class BudgetChart extends React.Component {
         for(const day in detail.patternDescription.weekdays){
             if (detail.patternDescription.weekdays[day] === true) {
                 countDate = new Date(startDate);
-
+                
                 while(countDate.getDay() !== parseInt(day)) {
                     countDate.setDate(countDate.getDate() + 1);
                 }
@@ -81,12 +81,8 @@ class BudgetChart extends React.Component {
 
         detail.patternDescription.dates.forEach(date => {
             countDate = new Date(startDate);
-            countDate.setDate(1);
+            countDate.setDate(parseInt(date));
             
-            while(countDate.getDate() !== parseInt(date)) {
-                countDate.setDate(countDate.getDate() + 1);
-            }
-
             while(countDate <= endDate) {
                 if (countDate >= startDate) {
                     dateArray.push({
@@ -106,27 +102,18 @@ class BudgetChart extends React.Component {
         const endDate = new Date(detail.patternDescription.endDate);
         const startDate = new Date(detail.patternDescription.startDate);
 
-        let countDate = new Date(startDate);
+        
         let dateArray = [];
 
-        /// TODO
         for(const month in detail.patternDescription.months){
             if (detail.patternDescription.months[month] === true) {
-                countDate = new Date(startDate);
-                countDate.setDate(1);
-
-                while(countDate.getMonth() !== parseInt(month)) {
-                    countDate.setMonth(countDate.getMonth() + 1);
-                }
+                let countDate = new Date(startDate);
 
                 detail.patternDescription.dates.forEach(date => {
                     countDate = new Date(startDate);
-                    countDate.setDate(1);
-                    
-                    while(countDate.getDate() !== parseInt(date)) {
-                        countDate.setDate(countDate.getDate() + 1);
-                    }
-        
+                    countDate.setDate(parseInt(date));
+                    countDate.setMonth(parseInt(month));
+                           
                     while(countDate <= endDate) {
                         if (countDate >= startDate) {
                             dateArray.push({
@@ -135,15 +122,18 @@ class BudgetChart extends React.Component {
                             });
                         }               
         
-                        countDate.setMonth(countDate.getMonth() + parseInt(detail.patternFrequency));
+                        countDate.setFullYear(countDate.getFullYear() + parseInt(detail.patternFrequency));
                     }
                 })                
             }            
         }
+
+        return dateArray;
     }
 
     neverPatternType = (detail) => {
-
+        const endDate = new Date(detail.patternDescription.endDate);
+        return [{ t: endDate, y: detail.amount }];
     }
 
     prepareData = () => {
@@ -158,34 +148,13 @@ class BudgetChart extends React.Component {
                     case 'Month':
                         return this.monthPatternType(detail);
                     case 'Year':
-                        return null;
+                        return this.yearPatternType(detail);
                     default:
-                        return null;
+                        return this.neverPatternType(detail);
                 }
             });
 
-
-            console.log(entryData);
-
-                /*const yearData = [];
-                for(let i = 0; i < 12; i++) {
-                    const dateNow = new Date();
-                    let month = entry.recurringDate < dateNow.getDate() ? dateNow.getMonth() + 2 + i : dateNow.getMonth() + 1 + i;
-                    const year = month > 12 ? dateNow.getFullYear() + 1 : dateNow.getFullYear();
-                    month = month === 12 ? 12 : month % 12;
-    
-                    const monthData = {
-                        t: `${year}-${("0" + month).slice(-2)}-${("0" + entry.recurringDate).slice(-2)}`,
-                        y: entry.amount
-                    };
-    
-                    yearData.push(monthData);
-                };
-    
-                return yearData;
-            });
-            
-            let unsortedData = initialData;
+            let unsortedData = [];
 
             for(let i = 0; i < entryData.length; i++) {
                 unsortedData = unsortedData.concat(entryData[i]);
@@ -201,7 +170,9 @@ class BudgetChart extends React.Component {
                 finalData[i].y += finalData[i-1].y;
             };
             
-            this.setState({ chartData: finalData });*/
+            this.setState({ chartData: finalData });
+
+               
         };
     };
 

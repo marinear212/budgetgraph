@@ -38,7 +38,7 @@ const PatternForm = (props) => {
     ]
 
     return weekdays.map((w) => {
-      return <ToggleButton key={w.value} buttonType="weekdays" buttonDisplay={w.display} buttonValue={w.value} initialValue={true} />
+      return <ToggleButton key={w.value} buttonType="weekdays" buttonDisplay={w.display} buttonValue={w.value} />
     });
   }
 

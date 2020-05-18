@@ -6,7 +6,7 @@ import {
     RESET_PATTERN,
 } from '../actions/FormTypes';
 
-export const formReducer = (state = { description: '', amount: '', patternFrequency: '1', patternType: 'Never', patternDescription: {} }, action) => {
+export const formReducer = (state = { type: 'Income', description: '', amount: '', patternFrequency: '1', patternType: 'Never', patternDescription: {} }, action) => {
     switch (action.type) {
         case SET_INPUT_VALUE:
             return {
@@ -14,6 +14,8 @@ export const formReducer = (state = { description: '', amount: '', patternFreque
                 [action.payload.name]: action.payload.value
             }
         case SET_PATTERN_VALUE:
+            console.log(action.payload);
+
             const updatedPatternDescriptionDate = {
                 ...state.patternDescription, 
                 [action.payload.valueType]: action.payload.value

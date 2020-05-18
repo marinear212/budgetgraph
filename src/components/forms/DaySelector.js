@@ -1,31 +1,41 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Select from 'react-select';
 
 import { setPatternValue } from '../../actions'
 
 const DaySelector = (props) => {
     
+
     const renderDays = () => {
         const days = Array.from(Array(31).keys(), x => x + 1);
 
         return days.map((d) => {
-            return <option key={d}>{d}</option>
+            return { value: d, label: d}
         })
     }
 
-    const handleChange = (e) => {
-        const selected = Array.from(e.target.options).filter(o => o.selected).map(o => o.value);
-        props.setPatternValue(e.target.name, selected);
+    const handleChange = (selected, {name}) => {
+        const value = selected.map(o => o.value)
+        props.setPatternValue(name, value);
     }
     
     return (
         <div className="field">
             <label className="label">Occuring Dates</label>
             <div className="control">
-                <div className="select is-multiple">
-                    <select name="dates" multiple size="4" onChange={handleChange}>
-                        {renderDays()}
-                    </select>
+                <div>
+                    <Select
+                        name='dates' 
+                        styles={{
+                            // Fixes the overlapping problem of the component
+                            menu: provided => ({ ...provided, zIndex: 9999 })
+                        }}
+                        options={renderDays()}
+                        onChange={(selected, name) => handleChange(selected, name)}
+                        isMulti
+                        isSearchable={false}
+                    />
                 </div>
             </div>            
         </div>

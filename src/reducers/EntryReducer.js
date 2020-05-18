@@ -8,6 +8,9 @@ import {
 export const entryReducer = (state = [], action) => {
     switch (action.type) {
         case CREATE_ENTRY:
+            if (action.payload.type === 'Expense')
+                action.payload.amount*= -1;
+
             return [
                 ...state, { 
                     id: !state.length ? 0 : state[state.length - 1].id + 1,

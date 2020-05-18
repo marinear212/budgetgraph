@@ -7,9 +7,9 @@ const Modal = ({ showModal, handleClose, handleSubmit, initialFormValue }) => {
         ReactDOM.createPortal(
             <div className={`modal${showModal ? ' is-active' : ''}`}>
                 <div className="modal-background" onClick={handleClose}></div>
-                <div className="modal-content">
+
                     <EntryForm handleClose={handleClose} handleSubmit={handleSubmit} />
-                </div>
+
             </div>,
             document.querySelector('#modal')
         )

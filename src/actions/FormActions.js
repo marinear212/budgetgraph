@@ -7,6 +7,9 @@ import {
 } from './FormTypes';
 
 export const setInputValue = (name, value) => {
+    if (name === 'amount')
+        value = parseFloat(value);
+
     return {
         type: SET_INPUT_VALUE,
         payload: { name, value }

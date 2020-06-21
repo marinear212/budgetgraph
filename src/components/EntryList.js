@@ -38,12 +38,26 @@ const EntryList = (props) => {
         return props.entries.map(entry => {
             return (
                 <tr key={entry.id}>
-                    <td className="is-size-5">{entry.detail.description}</td>
-                    <td className="is-size-5">{entry.detail.amount}</td>
-                    <td className="is-size-5">{recurrencyText(entry.detail.patternType, entry.detail.patternFrequency)}</td>
-                    <td style={{ textAlign: 'right' }}>
-                        <button className="button is-white" onClick={() => handleModal(entry.detail)}><i className="far fa-edit"></i></button>
-                        <button className="button is-white" onClick={() => props.deleteEntry(entry.id)}><i className="far fa-trash-alt"></i></button>         
+                    <td>{entry.detail.description}</td>
+                    <td>{entry.detail.amount}</td>
+                    <td>{recurrencyText(entry.detail.patternType, entry.detail.patternFrequency)}</td>
+                    <td>
+                        <div className="field is-grouped" style={{ float: 'right' }}>
+                            <div className="control">
+                                <button className="button is-white is-small" 
+                                    onClick={() => handleModal(entry.detail)}>
+                                    <i className="far fa-edit"></i>
+                                </button>
+                            </div>
+                            <div className="control">
+                                <button className="button is-white is-small" 
+                                    onClick={() => props.deleteEntry(entry.id)}>
+                                    <i className="far fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        
                     </td>                    
                 </tr>                    
             )
@@ -61,19 +75,22 @@ const EntryList = (props) => {
                     handleSubmit={handleSubmit} 
                     initialFormValue={entry} 
                 />
-                <table className="table is-fullwidth">
-                    <thead>
-                        <tr>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Recurrency</th>
-                            <th></th>   
-                        </tr>           
-                    </thead>
-                    <tbody>
-                        {renderList()}
-                    </tbody>
-                </table>            
+                <div className="table-container">
+                    <table className="table is-fullwidth"
+                        style={{ whiteSpace: 'nowrap'}}>
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Recurrency</th>
+                                <th></th>   
+                            </tr>           
+                        </thead>
+                        <tbody>
+                            {renderList()}
+                        </tbody>
+                    </table>  
+                </div>                          
             </Fragment>
         )
     }     

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import '../sass/styles.sass';
 
 import EntryCreate from './EntryCreate';
@@ -7,14 +7,22 @@ import BudgetChart from './BudgetChart';
 
 const App = () => {
     return (
-        <div className="container">
-            <div className="box is-shadowless">
-                <BudgetChart />
-                <EntryCreate />
-                <EntryList />  
-            </div>
-        </div>
-                    
+        <Fragment>
+            <section className="section" style={{backgroundColor: 'lightgray'}}>
+                <div className="container">
+                        <h1 className="title">Budgetgraph</h1>
+                </div>
+            </section>
+            <section className="section" style={{backgroundColor: 'lightgray'}}>
+                <div className="container">
+                    <BudgetChart />
+                    <div className="box is-shadowless">
+                        <EntryCreate />
+                        <EntryList />  
+                    </div>
+                </div>
+            </section>
+        </Fragment>          
     );
 };
 

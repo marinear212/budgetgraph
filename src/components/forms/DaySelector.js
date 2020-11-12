@@ -16,8 +16,11 @@ const DaySelector = (props) => {
     }
 
     const handleChange = (selected, {name}) => {
-        const value = selected.map(o => o.value)
-        props.setPatternValue(name, value);
+        if (selected !== null)
+        {
+            const value = selected.map(o => o.value)
+            props.setPatternValue(name, value);
+        }
     }
     
     return (

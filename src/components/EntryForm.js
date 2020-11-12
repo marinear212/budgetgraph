@@ -10,7 +10,6 @@ const EntryForm = (props) => {
   const [amount, setAmount] = useState(props.formValues.amount);
   const [patternType, setPatternType] = useState(props.formValues.patternType);
 
-
   const patternFrequencySelector = () => {
     const frequency = Array.from(Array(12).keys(), x => x + 1);
 
@@ -21,7 +20,7 @@ const EntryForm = (props) => {
     return (
       <div className="control">
         <div className="select">
-          <select name="patternFrequency" value={props.formValues.patternFrequency}
+          <select name="patternFrequency" value={patternFrequency}
             onChange={(e) => {
               setPatternFrequency(e.target.value);
               handleInputChange(e);
@@ -80,7 +79,7 @@ const EntryForm = (props) => {
               <label className="label">Description</label>
 
               <div className="contorl">
-                <input name="description" className="input" type="text" value={props.formValues.description}
+                <input name="description" className="input" type="text" value={description}
                   onChange={(e) => {
                     setDescription(e.target.value);
                     handleInputChange(e);
@@ -93,7 +92,7 @@ const EntryForm = (props) => {
               <label className="label">Amount</label>
 
               <div className="control">
-                <input name="amount" className="input" type="text" value={props.formValues.amount}
+                <input name="amount" className="input" type="text" value={amount}
                   onChange={(e) => {
                     setAmount(e.target.value);
                     handleInputChange(e);
@@ -104,18 +103,18 @@ const EntryForm = (props) => {
 
             <div className="field">
               <label className="label">{`Recurring${
-                props.formValues.patternType !== 'Never' && props.formValues.patternType !== 'Daily'
+                patternType !== 'Never' && patternType !== 'Daily'
                   ? ' every'
                   : ''
                 }`}</label>
               <div className="field is-grouped">
-                {props.formValues.patternType !== 'Never' && props.formValues.patternType !== 'Daily'
+                {patternType !== 'Never' && patternType !== 'Daily'
                   ? patternFrequencySelector()
                   : null}
 
                 <div className="contorl">
                   <div className="select">
-                    <select name="patternType" value={props.formValues.patternType}
+                    <select name="patternType" value={patternType}
                       onChange={(e) => {
                         setPatternType(e.target.value);
                         handleInputChange(e);
@@ -133,9 +132,7 @@ const EntryForm = (props) => {
 
             </div>
 
-            <PatternForm patternType={props.formValues.patternType} />
-
-            
+            <PatternForm patternType={patternType} />
 
           </form>
         </div>
@@ -143,7 +140,7 @@ const EntryForm = (props) => {
       <footer class="modal-card-foot">
         <div className="field is-grouped">
           <div className="control">
-            <input className="button is-link" type="submit" onClick={props.handleSubmit}></input>
+            <input className="button is-link" type="submit" value="Save" onClick={props.handleSubmit}></input>
           </div>
           <div className="control">
             <button className="button" onClick={props.handleClose}>Cancel</button>

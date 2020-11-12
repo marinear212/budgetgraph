@@ -13,15 +13,14 @@ class BudgetChart extends React.Component {
     }
 
     componentDidMount() {
-        this.loadChart();
+        if (this.props.entries.length > 0) this.loadChart();
         this.prepareData();
     };
 
     componentDidUpdate(prevProps) {
-        if (prevProps.entries !== this.props.entries)
-            this.prepareData();
+        if (prevProps.entries !== this.props.entries) this.prepareData();
 
-        this.loadChart();
+        if (this.props.entries.length > 0)  this.loadChart();
     };
 
     dailyPatternType = (detail) => {
@@ -188,9 +187,11 @@ class BudgetChart extends React.Component {
             data: {
                 labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                 datasets: [{
-                    label: 'My First dataset',
+                    label: 'Amount',
                     borderColor: 'rgba(255, 99, 132, 1)',
-                    data: this.state.chartData
+                    data: this.state.chartData,
+                    backgroundColor: 'rgba(0, 0, 0, 0)',
+                    steppedLine: 'true'
                 }]
             },
 
@@ -214,12 +215,18 @@ class BudgetChart extends React.Component {
                 }
             }
         });
-    };
-    
+    };  
 
     render() {
+        if (this.props.entries.length == null) return <div></div>;
+
+        if (this.props.entries.length <= 0) return <div></div>;
+
         return (
-            <canvas id="budgetchart" width="800" height="400"></canvas>
+            <div className="box is-shadowless">
+                <canvas id="budgetchart" width="800" height="400"></canvas>
+            </div>
+            
         );
     };    
 }
